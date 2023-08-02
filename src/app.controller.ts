@@ -1,15 +1,16 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller('app')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('test')
-  getHelloooo(): string {
-    console.log('Get message');
-    // return this.appService.getHello();
-    return 'hello world';
+  @Get('get/:id')
+  getHelloooo(@Param('id', ParseIntPipe) id: number) {
+    if (id < 1) {
+      throw new Error('Error');
+    }
+    return id;
   }
 
   @Post('create')
